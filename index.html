@@ -7,10 +7,16 @@
 		<title>reveal.js</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/white.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<style type="text/css">
+			.reveal section img { background:none; border:none; box-shadow:none; }
+
+			#podder { font:bold 60px Arial; }
+		</style>
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -24,8 +30,209 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h2>Container Orchestration</h2>
+					<p>Chennai Docker Meetup: March 2017</p>
+				</section>
+				<section>
+					<h2>Who am I?</h2>
+					<p>Mohanarangan Muthukumar</p>
+					<p><small>github.com/extrasalt</small></p>
+					<small>twitter:@extrasaltorg</small>					
+					<small>extrasalt.org</small>
+				</section>
+
+				<section>
+					<img src="images/docker.png">
+				</section>
+
+				<section>
+					<h4>Docker</h4>
+					<ul>
+						<li>Cgroups and namespaces</li>
+						<li>Application containers vs Machine containers</li>
+						<li>Shipping your machine</li>
+						<li>Communication only through ports</li>
+					</ul>
+				</section>
+
+				<section>
+					Pull the image
+					<pre><code class="hljs" style="word-wrap: break-word;">$ docker pull alpine	</code></pre>
+
+					Run a command inside the container
+					<pre><code class="hljs" style="word-wrap: break-word;">$ docker run alpine ls -l</code></pre>
+
+
+					Create a container and attach to it
+					<pre><code class="hljs" style="word-wrap: break-word;">$ docker run -it alpine /bin/sh</code></pre>					
+				</section>
+
+				<section>
+
+					<pre><code class="hljs" data-trim contenteditable>
+$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                    PORTS               NAMES
+75836ff40596        bfe2567e680b        "/bin/sh -c '#(nop..."   2 days ago          Created                                       loving_pasteur
+84ba520e5ac8        postgres            "docker-entrypoint..."   2 weeks ago         Exited (0) 19 hours ago                       postgres
+
+					 </code></pre>
+
+				
+					
+				</section>
+
+				<section>
+					<h3>What is orchestration?</h3>
+					<ul>
+						<li>Manage resources.</li>
+						<li>Schedule tasks</li>
+						<li>Monitoring</li>
+						<li>Managing the tasks</li>
+					</ul>
+				</section>
+
+				<section>
+					Swarm mode
+				</section>
+
+				<section>
+					<pre><code class="hljs" style="word-wrap: break-word;">$ docker swarm init</code></pre>
+				</section>
+
+				<section>
+					<h3>Pros and cons</h3>
+					<ul>
+						<li>Easy to setup. Docker-machine and docker swarm init</li>
+						<li>It has an internal raft implementation</li>
+						<li>Imperative vs Declarative</li>
+					</ul>
+				</section>
+
+				<section>
+					<img src="images/mesos.png">
+				</section>
+
+				<section>
+					Why do we need it?
+				</section>
+
+				<section>
+					<ul>
+						<li>Mesos master, mesos slave</li>
+						<li>Frameworks</li>
+						<li>Applications</li>
+					</ul>
+				</section>
+
+				<section>
+					Two-level scheduling
+				</section>
+
+				<section>
+					<ul>
+						<li>Marathon</li>
+						<li>Chronos</li>
+					</ul>
+				</section>
+
+				<section>
+					Why not mesos? Pre-dates containers and schedules jobs instead of pods. 
+				</section>
+
+				<section>
+					<img src="images/kube.png" width="200px" height="200px">
+				</section>
+
+				<section>
+					Quote from borg paper
+				</section>
+
+				<section>
+					<h3>Privitives</h3>
+					<ul>
+						<li>Pods</li>
+						<li>Nodes</li>
+						<li>Namespaces</li>
+						<li>Service</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Higher level constructs</h3>
+					<ul>
+						<li>Replicasets</li>
+						<li>Statefulsets</li>
+						<li>Daemonsets</li>
+						<li>Deployments</li>
+						<li>Jobs</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>How to setup kubernetes? [Hint: Nightmare]</h3>
+					<ul>
+						<li>minikube</li>
+						<li>Juju for Canonical distribution of kubernetes</li>
+						<li>Kargo</li>
+						<li>Kops</li>
+						<li>Terraform</li>
+						<li>Bootkube</li>
+						<li>Just use GKE</li>
+					</ul>
+				</section>
+
+				<section>
+					How to use Kubernetes? 
+					Kubectl/Kubernetes API
+				</section>
+
+				<section>
+					<h2>Container orchestrator</h2>
+					<ul>
+					<li>Manages resources (nodes) </li>
+					<li>Schedules tasks (Pods)</li>
+					<li>Monitors tasks</li>
+					<li>Gives you a way to manage tasks (kubectl and the API)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Operating system kernel</h2>
+					<ul>
+					<li>Manages resources</li>
+					<li>Schedules tasks</li>
+					<li>Monitors tasks</li>
+					<li>Gives you a way to manage tasks</li>
+					</ul>
+				</section>
+
+				<section>
+					Quote Datacenter as a computer
+				</section>
+
+				<section>
+					Kubernetes is the kernel of the datacenter
+				</section>
+
+				<section>
+					Running kubernetes on VMs is wasteful
+				</section>
+
+				<section>
+					<p id="podder">Podder</p>
+					<p><small>github.com/extrasalt/podder</small></p>
+				</section>
+
+				<section>
+					<ul>
+						<li>Can deploy self-contained golang binaries</li>
+						<li>By just drag dropping</li>
+						<li>It's multi-tentant</li>
+					</ul>
+				</section>
+
+
 			</div>
 		</div>
 
