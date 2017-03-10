@@ -97,11 +97,16 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 				</section>
 
 				<section>
-					<pre><code class="hljs" style="word-wrap: break-word;">$ docker swarm init</code></pre>
+					Manager Node
+					<pre><code class="hljs" style="word-wrap: break-word;">$ docker swarm init --advertise-addr=192.168.2.5</code></pre>
+					Swarm node
+					<pre><code class="hljs" style="word-wrap: break-word;">$ docker swarm join \
+    --token SWMTKN-1-43ae9q0vh499awlv7ojtgiuqz6zagze4wlaxh8gae50wxdi0nt-4ohknvwz3p45uqhptj9zh0ep8 \
+    192.168.2.5:2377
+</code></pre>
 				</section>
 
 				<section>
-					<h3>Pros and cons</h3>
 					<ul>
 						<li>Easy to setup. Docker-machine and docker swarm init</li>
 						<li>It has an internal raft implementation</li>
